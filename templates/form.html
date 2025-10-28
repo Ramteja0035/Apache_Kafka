@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Enter Your Details</title>
+    <style>
+        .hi {
+            text-align: center;
+            color: #305A72;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .form-style-9 {
+            max-width: 400px;
+            background: #FAFAFA;
+            padding: 30px;
+            margin: 50px auto;
+            box-shadow: 1px 1px 25px rgba(0, 0, 0, 0.35);
+            border-radius: 10px;
+            border: 6px solid #305A72;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .form-style-9 ul {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        .form-style-9 ul li {
+            display: block;
+            margin-bottom: 15px;
+            min-height: 35px;
+        }
+
+        .form-style-9 ul li .field-style {
+            box-sizing: border-box;
+            padding: 10px;
+            outline: none;
+            border: 1px solid #B0CFE0;
+            width: 100%;
+            border-radius: 6px;
+            transition: all 0.3s ease-in-out;
+            font-size: 14px;
+        }
+
+        .form-style-9 ul li .field-style:focus {
+            box-shadow: 0 0 5px #B0CFE0;
+            border: 1px solid #305A72;
+        }
+
+        .form-style-9 ul li select.field-style {
+            background-color: white;
+            cursor: pointer;
+        }
+
+        .form-style-9 ul li input[type="submit"] {
+            background-color: #216288;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 14px;
+        }
+
+        .form-style-9 ul li input[type="submit"]:hover {
+            background: linear-gradient(to bottom, #2D77A2 5%, #337DA8 100%);
+        }
+    </style>
+</head>
+<body>
+    <h1 class="hi">Enter Your Details</h1>
+    <form id="detailsForm" class="form-style-9" autocomplete="off">
+        <ul>
+            <li>
+                <input type="text" name="name" class="field-style" placeholder="Enter your Name" required />
+            </li>
+            <li>
+                <input type="number" name="age" class="field-style" placeholder="Enter your Age" required />
+            </li>
+            <li>
+                <select name="gender" class="field-style" required>
+                    <option value="">Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+            </li>
+            <li>
+                <input type="text" name="country" class="field-style" placeholder="Enter your Country" required />
+            </li>
+            <li class="hi">
+                <input type="submit" value="Submit" />
+            </li>
+        </ul>
+    </form>
+
+    <script>
+        document.getElementById("detailsForm").addEventListener("submit", async function(e) {
+            e.preventDefault(); // prevent page reload
+
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData.entries());
+
+            try {
+                const response = await fetch("/submit", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    alert("Data sent successfully!");
+                    this.reset(); // clear the form fields
+                } else {
+                    alert("Failed to send data!");
+                }
+            } catch (error) {
+                alert("Error: " + error.message);
+            }
+        });
+    </script>
+</body>
+</html>
